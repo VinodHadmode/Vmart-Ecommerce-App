@@ -10,6 +10,7 @@ import PlaceOrder from "./Pages/PlaceOrder";
 import Orders from "./Pages/Orders";
 import NotFound from "./Pages/NotFound";
 import Navbar from "./Components/Navbar";
+import Footer from "./Components/Footer";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
+      <Footer/>
     </div>
   );
 };

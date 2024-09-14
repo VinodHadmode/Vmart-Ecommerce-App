@@ -1,10 +1,10 @@
 import { assets } from "../assets/assets";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { GoSearch } from "react-icons/go";
 import { FaRegUser } from "react-icons/fa";
 import { BsCart2 } from "react-icons/bs";
 import { FiMenu } from "react-icons/fi";
-import { IoIosArrowBack } from "react-icons/io"; 
+import { IoIosArrowBack } from "react-icons/io";
 import { useState } from "react";
 
 const Navbar = () => {
@@ -16,10 +16,12 @@ const Navbar = () => {
     };
 
     return (
-        <div className="flex items-center justify-between py-4 px-6 bg-gray-900 text-white shadow-md relative">
-         
+        <div className="flex items-center justify-between px-4 sm:px-6 md:px-8 lg:px-12 py-4 bg-gray-900 text-white shadow-md relative">
+
             <div>
-                <img src={assets.logo} alt="forever" className="w-32 h-auto bg-white" />
+                <Link to={"/"}>
+                    <img src={assets.logo} alt="forever" className="w-32 h-auto bg-white" />
+                </Link>
             </div>
 
             {/* Navigation Links */}
@@ -50,9 +52,9 @@ const Navbar = () => {
                 </NavLink>
             </div>
 
-           
+
             <div className="flex items-center space-x-4">
-               
+
                 <GoSearch className="w-6 h-6 cursor-pointer hover:text-yellow-400 transition-colors" />
 
                 {/* User Icon with Dropdown */}
@@ -114,7 +116,7 @@ const Navbar = () => {
                             <IoIosArrowBack className="text-black w-6 h-6" />
                             <p className="text-gray-600">BACK</p>
                         </div>
-                      
+
                         <div className="flex flex-col">
                             <NavLink onClick={() => setVisibleMenu(false)} className="block py-3 pl-6 border-b hover:bg-gray-500 text-gray-700" to="/">HOME</NavLink>
                             <NavLink onClick={() => setVisibleMenu(false)} className="block py-3 pl-6 border-b hover:bg-gray-500 text-gray-700" to="/collection">COLLECTION</NavLink>

@@ -5,11 +5,14 @@ import { FaRegUser } from "react-icons/fa";
 import { BsCart2 } from "react-icons/bs";
 import { FiMenu } from "react-icons/fi";
 import { IoIosArrowBack } from "react-icons/io";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ShopContext } from "../Context/ShopContext";
 
 const Navbar = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [visibleMenu, setVisibleMenu] = useState(false);
+
+    const {setShowSearch}=useContext(ShopContext)
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
@@ -55,7 +58,7 @@ const Navbar = () => {
 
             <div className="flex items-center space-x-4">
 
-                <GoSearch className="w-6 h-6 cursor-pointer hover:text-yellow-400 transition-colors" />
+                <GoSearch onClick={()=>setShowSearch(true)} className="w-6 h-6 cursor-pointer hover:text-yellow-400 transition-colors" />
 
                 {/* User Icon with Dropdown */}
                 <div className="relative">

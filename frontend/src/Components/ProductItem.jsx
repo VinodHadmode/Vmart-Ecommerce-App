@@ -7,7 +7,7 @@ const ProductItem = ({ id, name, image, price }) => {
 
     return (
         <Link
-            to={`/products/${id}`}
+            to={`/product/${id}`}
             className="group text-gray-700 cursor-pointer border rounded-lg shadow-lg overflow-hidden"
         >
             {/* Image Section */}

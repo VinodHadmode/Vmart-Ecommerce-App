@@ -42,6 +42,7 @@ const Collection = () => {
 
     //Apply search query
     if (search && showSearch) {
+      
       productsCopy=productsCopy.filter((item)=>{
         return item.name.toLowerCase().includes(search.toLowerCase())
       })

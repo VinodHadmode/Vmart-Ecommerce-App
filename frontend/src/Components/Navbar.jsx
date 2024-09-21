@@ -12,7 +12,7 @@ const Navbar = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [visibleMenu, setVisibleMenu] = useState(false);
 
-    const {setShowSearch}=useContext(ShopContext)
+    const {setShowSearch,getCartCount}=useContext(ShopContext)
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
@@ -96,7 +96,7 @@ const Navbar = () => {
                 <NavLink to="/cart" className="relative flex items-center">
                     <BsCart2 className="w-6 h-6 cursor-pointer hover:text-yellow-400 transition-colors" />
                     <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-600 text-white text-xs flex items-center justify-center rounded-full">
-                        10
+                      {getCartCount()}
                     </span>
                 </NavLink>
 

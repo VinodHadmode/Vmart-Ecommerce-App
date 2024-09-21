@@ -12,10 +12,13 @@ import NotFound from "./Pages/NotFound";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import SearchBar from "./Components/SearchBar";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   return (
     <div className="bg-gray-100 min-h-screen">
+      <ToastContainer/>
       <Navbar />
       <SearchBar/>
       <main className="px-4 sm:px-6 md:px-8 lg:px-12 py-8">

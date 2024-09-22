@@ -12,7 +12,7 @@ const Navbar = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [visibleMenu, setVisibleMenu] = useState(false);
 
-    const {setShowSearch,getCartCount}=useContext(ShopContext)
+    const { setShowSearch, getCartCount } = useContext(ShopContext)
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
@@ -58,14 +58,16 @@ const Navbar = () => {
 
             <div className="flex items-center space-x-4">
 
-                <GoSearch onClick={()=>setShowSearch(true)} className="w-6 h-6 cursor-pointer hover:text-yellow-400 transition-colors" />
+                <GoSearch onClick={() => setShowSearch(true)} className="w-6 h-6 cursor-pointer hover:text-yellow-400 transition-colors" />
 
                 {/* User Icon with Dropdown */}
                 <div className="relative">
-                    <FaRegUser
-                        className="w-6 h-6 cursor-pointer hover:text-yellow-400 transition-colors"
-                        onClick={toggleDropdown}
-                    />
+                    <Link to={'/login'}>
+                        <FaRegUser
+                            className="w-6 h-6 cursor-pointer hover:text-yellow-400 transition-colors"
+                            onClick={toggleDropdown}
+                        />
+                    </Link>
                     {isDropdownOpen && (
                         <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 text-gray-800 z-50">
                             <NavLink
@@ -96,7 +98,7 @@ const Navbar = () => {
                 <NavLink to="/cart" className="relative flex items-center">
                     <BsCart2 className="w-6 h-6 cursor-pointer hover:text-yellow-400 transition-colors" />
                     <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-600 text-white text-xs flex items-center justify-center rounded-full">
-                      {getCartCount()}
+                        {getCartCount()}
                     </span>
                 </NavLink>
 

@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import {useNavigate} from "react-router-dom"
 import { products } from "../assets/assets"
 import { toast } from "react-toastify";
 
@@ -9,6 +10,7 @@ const ShopContextProvider = ({ children }) => {
     const [search, setSearch] = useState("")
     const [showSearch, setShowSearch] = useState(false)
     const [cartItems, setCartItems] = useState({})
+    const navigate=useNavigate()
 
     const currency = "$"
     const delivery_fee = 10
@@ -54,33 +56,34 @@ const ShopContextProvider = ({ children }) => {
         return totalCount
     }
 
-    const updateCartQuantity = async (itemId, size, quantity) => {
-        const updatedCartItems = structuredClone(cartItems)
+    const updateCartQuantity = (itemId, size, quantity) => {
+        const updatedCartItems = structuredClone(cartItems);
+    
+        if (updatedCartItems[itemId]) {
+            updatedCartItems[itemId][size] = quantity;
+            setCartItems(updatedCartItems);
+        }
+    };
+    
 
-        updatedCartItems[itemId][size] = quantity
-
-        setCartItems(updatedCartItems)
-    }
-
-    const getCartAmount = async () => {
+    const getCartAmount = () => {
         let totalAmount = 0;
-
+    
         for (const items in cartItems) {
-            let itemInfo = products.find((product) => product._id === items)
-
-            for (const item in cartItems[items]) {
-                try {
+            let itemInfo = products.find((product) => product._id === items);
+    
+            if (itemInfo) {
+                for (const item in cartItems[items]) {
                     if (cartItems[items][item] > 0) {
-                        totalAmount += itemInfo.price * cartItems[items][item]
+                        totalAmount += itemInfo.price * cartItems[items][item];
                     }
-                } catch (error) {
-                    console.log(error);
                 }
             }
         }
-
-        return totalAmount
+    
+        return totalAmount;
     }
+    
 
     const contextValue = {
         products, currency, delivery_fee,

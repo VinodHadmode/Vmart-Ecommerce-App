@@ -1,14 +1,15 @@
 import { useContext, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../Context/ShopContext"
 import Title from "../Components/Title"
 import CartItem from "../Components/CartItem";
+import CartTotal from "../Components/CartTotal";
 
 const Cart = () => {
   const { products, currency, cartItems, updateCartQuantity } = useContext(ShopContext)
   const [cartData, setCartData] = useState([])
+  const navigate=useNavigate()
 
-  console.log("cartItems", cartItems);
-  console.log("products", products);
 
   const handleQuantityChange = (e, itemId, size) => {
     const newQuantity = Number(e.target.value);
@@ -66,6 +67,16 @@ const Cart = () => {
           })
         }
       </div>
+
+      <div className=" flex justify-end my-20">
+        <div className="w-full sm:w-[450px]">
+          <CartTotal/>
+          <div className="w-full text-end">
+              <button onClick={()=>navigate('/place-order')} className="bg-black text-white text-sm my-8 px-5 py-3">PROCEED TO CHECKOUT</button>
+          </div>
+        </div>
+      </div>
+
     </div>
   )
 }

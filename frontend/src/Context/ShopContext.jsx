@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { products } from "../assets/assets"
 import { toast } from "react-toastify";
 
@@ -10,7 +10,7 @@ const ShopContextProvider = ({ children }) => {
     const [search, setSearch] = useState("")
     const [showSearch, setShowSearch] = useState(false)
     const [cartItems, setCartItems] = useState({})
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
     const currency = "$"
     const delivery_fee = 10
@@ -48,7 +48,7 @@ const ShopContextProvider = ({ children }) => {
                         totalCount += cartItems[items][item];
                     }
                 } catch (error) {
-
+                    console.log(error);
                 }
             }
         }
@@ -58,20 +58,20 @@ const ShopContextProvider = ({ children }) => {
 
     const updateCartQuantity = (itemId, size, quantity) => {
         const updatedCartItems = structuredClone(cartItems);
-    
+
         if (updatedCartItems[itemId]) {
             updatedCartItems[itemId][size] = quantity;
             setCartItems(updatedCartItems);
         }
     };
-    
+
 
     const getCartAmount = () => {
         let totalAmount = 0;
-    
+
         for (const items in cartItems) {
             let itemInfo = products.find((product) => product._id === items);
-    
+
             if (itemInfo) {
                 for (const item in cartItems[items]) {
                     if (cartItems[items][item] > 0) {
@@ -80,15 +80,15 @@ const ShopContextProvider = ({ children }) => {
                 }
             }
         }
-    
+
         return totalAmount;
     }
-    
+
 
     const contextValue = {
         products, currency, delivery_fee,
         search, setSearch, showSearch, setShowSearch,
-        cartItems, addToCart, getCartCount, updateCartQuantity,getCartAmount
+        cartItems, addToCart, getCartCount, updateCartQuantity, getCartAmount
     }
 
     return (

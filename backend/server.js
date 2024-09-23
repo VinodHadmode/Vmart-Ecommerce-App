@@ -1,6 +1,9 @@
 const express = require("express")
 const cors = require("cors")
 const { connection } = require("./config/db")
+const { connectCloudinary } = require("./config/cloudinary")
+const { userRouter } = require("./routes/userRoute")
+const { productRouter } = require("./routes/productRoute")
 require('dotenv').config()
 
 
@@ -13,6 +16,9 @@ app.use(express.json())
 app.use(cors())
 
 //API endpoints
+app.use('/api/user',userRouter)
+app.use('/api/product',productRouter)
+
 app.get('/', (req, res) => {
     res.send('API Working perfectly!!')
 })
@@ -22,6 +28,10 @@ app.listen(port, async () => {
     try {
         await connection
         console.log(`Connected to DB!!`);
+
+        // Cloudinary configuration
+        connectCloudinary();
+
     } catch (error) {
         console.log(error);
         console.log(`Something went wrong while connceting to DB!!`);

@@ -1,16 +1,21 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Navbar from "./Components/Navbar"
+import Sidebar from "./Components/Sidebar"
 
 function App() {
-  
+
   return (
-    <>
-     <h1 className="text-3xl text-red-500 font-bold underline">
-      Hello world!
-    </h1>
-    </>
+    <div className="bg-gray-50 min-h-screen">
+      <>
+        <Navbar />
+        <hr />
+        <div className="flex">
+          <Sidebar />
+          <div className="w-full p-8">
+            {/* Main content for the admin panel will go here */}
+          </div>
+        </div>
+      </>
+    </div>
   )
 }
 

@@ -2,6 +2,7 @@ const { UserModel } = require("../models/userModel")
 const validator = require('validator');
 const bcrypt = require('bcrypt');
 const { createToken } = require("../helpers/authhelper");
+const jwt = require("jsonwebtoken")
 require("dotenv").config()
 
 
@@ -67,10 +68,29 @@ const registerUser = async (req, res) => {
     }
 }
 
-//Route for admin login
+// Route for admin login
 const adminLogin = async (req, res) => {
+    try {
+        const { email, password } = req.body;
 
-}
+        if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+
+            const token = jwt.sign(
+                { email, role: 'admin' },  // Payload
+                process.env.JWT_SECRET,    // Secret key
+                { expiresIn: '1h' }        // Optional: token expiration
+            );
+
+            return res.status(200).json({ success: true, token });
+
+        } else {
+            return res.status(400).json({ success: false, message: 'Invalid Credentials..' });
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({ success: false, message: error.message || 'Something went wrong..' });
+    }
+};
 
 module.exports = {
     loginUser,

@@ -1,15 +1,21 @@
-import React from 'react'
-import { assets } from '../assets/assets'
+import React from "react";
+import { assets } from "../assets/assets";
 
-const Navbar = () => {
-    return (
-        <div className="flex items-center py-3 px-[4%] justify-between bg-gray-900 text-white shadow-md">
-            <img className="w-[max(10%,80px)] bg-white" src={assets.logo} alt="Admin Logo" />
-            <button className="bg-red-600 hover:bg-red-500 transition px-5 py-2 sm:px-7 sm:py-2 rounded-full text-xs sm:text-sm">
-                Logout
-            </button>
-        </div>
-    )
-}
+const Navbar = ({ onLogout }) => {
+  return (
+    <div className="flex items-center justify-between px-4 sm:px-6 md:px-8 lg:px-12 py-4 bg-gray-900 text-white shadow-md">
+      <div>
+        <img src={assets.logo} alt="admin panel logo" className="w-32 h-auto bg-white" />
+      </div>
+      
+      <button
+        onClick={onLogout}
+        className="bg-yellow-400 text-gray-900 px-5 py-2 sm:px-7 sm:py-2 rounded-full text-xs sm:text-sm font-semibold hover:bg-yellow-500 transition-colors"
+      >
+        Logout
+      </button>
+    </div>
+  );
+};
 
-export default Navbar
+export default Navbar;

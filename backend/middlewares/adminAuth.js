@@ -14,7 +14,7 @@ const adminAuth = (req, res, next) => {
         const token = authHeader.split(' ')[1];
         // Verify the token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        console.log("decoded token", decoded);
+        // console.log("decoded token", decoded);
 
         // Check if the role is 'admin'
         if (decoded && decoded.role === 'admin') {
@@ -24,6 +24,9 @@ const adminAuth = (req, res, next) => {
         }
 
     } catch (error) {
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ success: false, message: "JWT token has expired" });
+        }
         console.log(error);
         return res.status(500).json({ success: false, message: "Something went wrong.." });
     }

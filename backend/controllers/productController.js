@@ -70,14 +70,14 @@ const listProduct = async (req, res) => {
     }
 }
 
-//remove product
 const removeProduct = async (req, res) => {
     try {
-        const removedProduct = await ProductModel.findByIdAndDelete(req.body.id);
+        const removedProduct = await ProductModel.findByIdAndDelete(req.params.id);
         if (removedProduct) {
-            res.status(200).json({ success: true, removedProduct: removedProduct, message: 'Product removed Successfully!!' });
+            res.status(200).json({ success: true, removedProduct: removedProduct, message: 'Product removed!' });
+        } else {
+            res.status(404).json({ success: false, message: 'Product not found' });
         }
-
     } catch (error) {
         console.log(error);
         res.status(500).json({ success: false, message: error.message || 'Internal Server Error' });

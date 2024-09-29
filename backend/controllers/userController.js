@@ -6,8 +6,6 @@ const jwt = require("jsonwebtoken")
 require("dotenv").config()
 
 
-
-
 //Route for user login
 const loginUser = async (req, res) => {
     const { email, password } = req.body

@@ -4,6 +4,7 @@ const { connection } = require("./config/db")
 const { connectCloudinary } = require("./config/cloudinary")
 const { userRouter } = require("./routes/userRoute")
 const { productRouter } = require("./routes/productRoute")
+const { cartRouter } = require("./routes/cartRoute")
 require('dotenv').config()
 
 
@@ -18,6 +19,7 @@ app.use(cors())
 //API endpoints
 app.use('/api/user',userRouter)
 app.use('/api/product',productRouter)
+app.use('/api/cart',cartRouter)
 
 app.get('/', (req, res) => {
     res.send('API Working perfectly!!')

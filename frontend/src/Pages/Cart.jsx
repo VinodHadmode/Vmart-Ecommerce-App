@@ -8,7 +8,7 @@ import CartTotal from "../Components/CartTotal";
 const Cart = () => {
   const { products, currency, cartItems, updateCartQuantity } = useContext(ShopContext)
   const [cartData, setCartData] = useState([])
-  const navigate=useNavigate()
+  const navigate = useNavigate()
 
 
   const handleQuantityChange = (e, itemId, size) => {
@@ -21,25 +21,28 @@ const Cart = () => {
 
 
   const buildCartData = (cartItems) => {
-    const tempData = [];
-    for (const items in cartItems) {
-      for (const size in cartItems[items]) {
-        if (cartItems[items][size] > 0) {
-          tempData.push({
-            _id: items,
-            size: size,
-            quantity: cartItems[items][size],
-          });
+    if (products.length > 0) {
+      const tempData = [];
+      for (const items in cartItems) {
+        for (const size in cartItems[items]) {
+          if (cartItems[items][size] > 0) {
+            tempData.push({
+              _id: items,
+              size: size,
+              quantity: cartItems[items][size],
+            });
+          }
         }
       }
+      return tempData;
     }
-    return tempData;
+
   };
 
 
   useEffect(() => {
     setCartData(buildCartData(cartItems));
-  }, [cartItems]);
+  }, [cartItems, products]);
 
 
   return (
@@ -70,9 +73,9 @@ const Cart = () => {
 
       <div className=" flex justify-end my-20">
         <div className="w-full sm:w-[450px]">
-          <CartTotal/>
+          <CartTotal />
           <div className="w-full text-end">
-              <button onClick={()=>navigate('/place-order')} className="bg-black text-white text-sm my-8 px-5 py-3">PROCEED TO CHECKOUT</button>
+            <button onClick={() => navigate('/place-order')} className="bg-black text-white text-sm my-8 px-5 py-3">PROCEED TO CHECKOUT</button>
           </div>
         </div>
       </div>

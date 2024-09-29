@@ -12,10 +12,22 @@ const Navbar = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [visibleMenu, setVisibleMenu] = useState(false);
 
-    const { setShowSearch, getCartCount } = useContext(ShopContext)
+    const { setShowSearch, getCartCount, navigate, token, setToken, setCartItems } = useContext(ShopContext)
 
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
+    const logout = () => {
+        navigate('/login')
+        setIsDropdownOpen(false)
+        localStorage.removeItem('userToken')
+        setToken('')
+        setCartItems({})
+    }
+
+    const handleUserIconClick = () => {
+        if (token) {
+            setIsDropdownOpen(!isDropdownOpen); // Open dropdown if logged in
+        } else {
+            navigate('/login'); // Navigate to login if not logged in
+        }
     };
 
     return (
@@ -29,46 +41,31 @@ const Navbar = () => {
 
             {/* Navigation Links */}
             <div className="hidden sm:flex space-x-6">
-                <NavLink
-                    to={"/"}
-                    className="hover:text-yellow-400 transition-colors"
-                >
+                <NavLink to={"/"} className="hover:text-yellow-400 transition-colors">
                     HOME
                 </NavLink>
-                <NavLink
-                    to={"/collection"}
-                    className="hover:text-yellow-400 transition-colors"
-                >
+                <NavLink to={"/collection"} className="hover:text-yellow-400 transition-colors">
                     COLLECTION
                 </NavLink>
-                <NavLink
-                    to={"/about"}
-                    className="hover:text-yellow-400 transition-colors"
-                >
+                <NavLink to={"/about"} className="hover:text-yellow-400 transition-colors">
                     ABOUT
                 </NavLink>
-                <NavLink
-                    to={"/contact"}
-                    className="hover:text-yellow-400 transition-colors"
-                >
+                <NavLink to={"/contact"} className="hover:text-yellow-400 transition-colors">
                     CONTACT
                 </NavLink>
             </div>
 
-
             <div className="flex items-center space-x-4">
-
                 <GoSearch onClick={() => setShowSearch(true)} className="w-6 h-6 cursor-pointer hover:text-yellow-400 transition-colors" />
 
                 {/* User Icon with Dropdown */}
                 <div className="relative">
-                    <Link to={'/login'}>
-                        <FaRegUser
-                            className="w-6 h-6 cursor-pointer hover:text-yellow-400 transition-colors"
-                            onClick={toggleDropdown}
-                        />
-                    </Link>
-                    {isDropdownOpen && (
+                    <FaRegUser
+                        className="w-6 h-6 cursor-pointer hover:text-yellow-400 transition-colors"
+                        onClick={handleUserIconClick}
+                    />
+
+                    {isDropdownOpen && token && (
                         <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 text-gray-800 z-50">
                             <NavLink
                                 to={"/profile"}
@@ -86,7 +83,7 @@ const Navbar = () => {
                             </NavLink>
                             <button
                                 className="block w-full text-left px-4 py-2 hover:bg-gray-200 rounded-lg"
-                                onClick={() => setIsDropdownOpen(false)}
+                                onClick={logout}
                             >
                                 Logout
                             </button>

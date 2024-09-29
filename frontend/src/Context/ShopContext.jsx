@@ -11,7 +11,7 @@ const ShopContextProvider = ({ children }) => {
     const [showSearch, setShowSearch] = useState(false)
     const [cartItems, setCartItems] = useState({})
     const [products, setProducts] = useState([])
-    const [token,setToken]=useState('')
+    const [token, setToken] = useState('')
     const navigate = useNavigate()
 
     const currency = "$"
@@ -88,13 +88,13 @@ const ShopContextProvider = ({ children }) => {
         return totalAmount;
     }
 
-
     const contextValue = {
         products, currency, delivery_fee,
         search, setSearch, showSearch, setShowSearch,
         cartItems, addToCart, getCartCount, updateCartQuantity, getCartAmount,
         backendUrl,
-        token,setToken
+        navigate,
+        token, setToken
     }
 
     const getProducts = async () => {
@@ -116,6 +116,12 @@ const ShopContextProvider = ({ children }) => {
 
     useEffect(() => {
         getProducts()
+    }, [])
+
+    useEffect(() => {
+        if (!token && localStorage.getItem('userToken')) {
+            setToken(localStorage.getItem('userToken'))
+        }
     }, [])
 
     return (

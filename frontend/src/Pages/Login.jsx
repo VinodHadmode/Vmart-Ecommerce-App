@@ -1,11 +1,56 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { ShopContext } from "../Context/ShopContext";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Login = () => {
-  const [currentState, setCurrentState] = useState("Sign Up");
+  const { token, setToken, backendUrl, navigate } = useContext(ShopContext)
+  const [currentState, setCurrentState] = useState("Log In");
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
-  const handleFormSubmit = (e) => {
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
+    try {
+
+      if (currentState == 'Sign Up') {
+        const response = await axios.post(`${backendUrl}/api/user/register`, { name, email, password })
+
+        console.log(response.data);
+
+        if (response.data.success) {
+          toast.success(response.data.message)
+        } else {
+          toast.error(response.data.message)
+        }
+      }
+      else {
+        const response = await axios.post(`${backendUrl}/api/user/login`, { email, password })
+        console.log(response.data);
+
+        if (response.data.success) {
+          setToken(response.data.token)
+          localStorage.setItem('userToken', response.data.token)
+          toast.success(response.data.message)
+        } else {
+          toast.error(response.data.message)
+        }
+      }
+
+
+    } catch (error) {
+      console.log(error.response?.data?.message);
+      toast.error(error.response?.data?.message)
+    }
   };
+
+  useEffect(() => {
+    if (token) {
+      navigate('/')
+    }
+  }, [token])
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -18,23 +63,29 @@ const Login = () => {
 
         {/* Conditional Name Field */}
         {currentState === "Sign Up" && (
-          <input 
-            type="text" 
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" 
-            placeholder="Name" 
-            required 
+          <input
+            type="text"
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="Name"
+            required
           />
         )}
 
         {/* Email and Password Fields */}
         <input
           type="email"
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
           placeholder="Email"
           required
         />
         <input
           type="password"
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
           placeholder="Password"
           required

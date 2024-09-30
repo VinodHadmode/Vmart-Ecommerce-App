@@ -148,7 +148,7 @@ const ShopContextProvider = ({ children }) => {
     const contextValue = {
         products, currency, delivery_fee,
         search, setSearch, showSearch, setShowSearch,
-        cartItems, addToCart, getCartCount, updateCartQuantity, getCartAmount,
+        cartItems,setCartItems, addToCart, getCartCount, updateCartQuantity, getCartAmount,
         backendUrl,
         navigate,
         token, setToken

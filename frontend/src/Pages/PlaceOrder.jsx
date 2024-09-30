@@ -1,19 +1,73 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { assets } from "../assets/assets";
 import CartTotal from "../Components/CartTotal";
 import Title from "../Components/Title";
 import { useNavigate } from "react-router-dom";
+import { ShopContext } from "../Context/ShopContext";
 
 const PlaceOrder = () => {
-  const [paymentMethod, setPaymentMethod] = useState("cod");
-  const navigate = useNavigate();
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const { navigate, backendUrl, token, cartItems, setCartItems, delivery_fee, products } = useContext(ShopContext)
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    street: '',
+    city: '',
+    state: '',
+    zipcode: '',
+    country: '',
+    phone: ''
+  })
+
+  console.log("cartItems",cartItems);
+  
+  const onChangeHandler = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    console.log('fun invoked');
+    
+    try {
+      let orderItems = []
+
+      for (const items in cartItems) {
+        console.log('inside outer for',items,cartItems);
+        
+        for (const item in cartItems[items]) {
+        console.log('inside inner for',item,cartItems[item]);
+
+          if (cartItems[items][item] > 0) {
+            const itemInfo = structuredClone(products.find((product) => product._id === items))
+        console.log('iteminfo',itemInfo);
+
+            if (itemInfo) {
+              itemInfo.size = item;
+              itemInfo.quantity = cartItems[items][item]
+              orderItems.push(itemInfo)
+            }
+          }
+        }
+      }
+
+      console.log("orderItems",orderItems);
+
+    } catch (error) {
+
+    }
+  }
 
   return (
-    <div className="min-h-[80vh] border-t py-10 bg-gray-50">
-      <div className="container mx-auto flex flex-col sm:flex-row gap-8">
+    <div className="min-h-[80vh] border-t px-5 py-10 bg-gray-50">
+      <form onSubmit={handleSubmit} className="container mx-auto flex flex-col sm:flex-row gap-8">
 
         {/* Left Side - Delivery Information */}
-        <div className="flex flex-col w-full sm:max-w-[480px] space-y-6">
+        <div className="flex flex-col w-full sm:max-w-[480px] space-y-6 border p-10">
           <div className="text-2xl">
             <Title text1={"DELIVERY"} text2={"INFORMATION"} />
 
@@ -23,11 +77,19 @@ const PlaceOrder = () => {
               className="border border-gray-300 rounded-md py-2 px-4 w-full"
               type="text"
               placeholder="First name"
+              onChange={onChangeHandler}
+              name="firstName"
+              value={formData.firstName}
+              required
             />
             <input
               className="border border-gray-300 rounded-md py-2 px-4 w-full"
               type="text"
               placeholder="Last name"
+              onChange={onChangeHandler}
+              name="lastName"
+              value={formData.lastName}
+              required
             />
           </div>
 
@@ -35,11 +97,19 @@ const PlaceOrder = () => {
             className="border border-gray-300 rounded-md py-2 px-4 w-full"
             type="email"
             placeholder="Email Address"
+            onChange={onChangeHandler}
+            name="email"
+            value={formData.email}
+            required
           />
           <input
             className="border border-gray-300 rounded-md py-2 px-4 w-full"
             type="text"
             placeholder="Street Name"
+            onChange={onChangeHandler}
+            name="street"
+            value={formData.street}
+            required
           />
 
           <div className="grid grid-cols-2 gap-4">
@@ -47,11 +117,19 @@ const PlaceOrder = () => {
               className="border border-gray-300 rounded-md py-2 px-4 w-full"
               type="text"
               placeholder="City"
+              onChange={onChangeHandler}
+              name="city"
+              value={formData.city}
+              required
             />
             <input
               className="border border-gray-300 rounded-md py-2 px-4 w-full"
               type="text"
               placeholder="State"
+              onChange={onChangeHandler}
+              name="state"
+              value={formData.state}
+              required
             />
           </div>
 
@@ -60,11 +138,19 @@ const PlaceOrder = () => {
               className="border border-gray-300 rounded-md py-2 px-4 w-full"
               type="number"
               placeholder="Zip Code"
+              onChange={onChangeHandler}
+              name="zipcode"
+              value={formData.zipcode}
+              required
             />
             <input
               className="border border-gray-300 rounded-md py-2 px-4 w-full"
               type="text"
               placeholder="Country"
+              onChange={onChangeHandler}
+              name="country"
+              value={formData.country}
+              required
             />
           </div>
 
@@ -72,11 +158,15 @@ const PlaceOrder = () => {
             className="border border-gray-300 rounded-md py-2 px-4 w-full"
             type="number"
             placeholder="Phone"
+            onChange={onChangeHandler}
+            name="phone"
+            value={formData.phone}
+            required
           />
         </div>
 
         {/* Right Side - Cart Total & Payment Method */}
-        <div className="flex-1">
+        <div className="flex-1 border p-10">
           <CartTotal />
 
           <div className="mt-10">
@@ -134,7 +224,7 @@ const PlaceOrder = () => {
             {/* Place Order Button */}
             <div className="text-right mt-10">
               <button
-                onClick={() => navigate("/orders")}
+                type="submit"
                 className="bg-black text-white py-3 px-8 rounded-md hover:bg-gray-800 transition-colors"
               >
                 PLACE ORDER
@@ -142,7 +232,7 @@ const PlaceOrder = () => {
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

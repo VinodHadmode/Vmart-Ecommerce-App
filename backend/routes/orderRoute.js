@@ -10,13 +10,13 @@ orderRouter.post('/list', adminAuth, allOrders)
 orderRouter.post('/status', adminAuth, updateOrderStatus)
 
 //payment routes
-orderRouter.post('/place-cod', placeOrderCOD)
-orderRouter.post('place-stripe', placeOrderStripe)
-orderRouter.post('place-razorpay', placeOrderRazorPay)
+orderRouter.post('/place-cod', userAuth, placeOrderCOD)
+orderRouter.post('/place-stripe', userAuth, placeOrderStripe)
+orderRouter.post('/place-razorpay', userAuth, placeOrderRazorPay)
 
 //order routes
 orderRouter.post('/userorders', userAuth, userOrders)
 
-module.exports={
+module.exports = {
     orderRouter
 }

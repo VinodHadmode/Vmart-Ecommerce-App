@@ -12,6 +12,7 @@ const adminAuth = (req, res, next) => {
 
         // Extract the actual token from the header
         const token = authHeader.split(' ')[1];
+        
         // Verify the token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         // console.log("decoded token", decoded);

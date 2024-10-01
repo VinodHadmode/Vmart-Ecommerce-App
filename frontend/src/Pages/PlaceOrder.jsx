@@ -4,10 +4,12 @@ import CartTotal from "../Components/CartTotal";
 import Title from "../Components/Title";
 import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../Context/ShopContext";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const PlaceOrder = () => {
   const [paymentMethod, setPaymentMethod] = useState("");
-  const { navigate, backendUrl, token, cartItems, setCartItems, delivery_fee, products } = useContext(ShopContext)
+  const { navigate, backendUrl, token, cartItems, setCartItems, getCartAmount, delivery_fee, products } = useContext(ShopContext)
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -20,8 +22,6 @@ const PlaceOrder = () => {
     phone: ''
   })
 
-  console.log("cartItems",cartItems);
-  
   const onChangeHandler = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -31,20 +31,16 @@ const PlaceOrder = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    console.log('fun invoked');
-    
+
     try {
       let orderItems = []
 
       for (const items in cartItems) {
-        console.log('inside outer for',items,cartItems);
-        
+
         for (const item in cartItems[items]) {
-        console.log('inside inner for',item,cartItems[item]);
 
           if (cartItems[items][item] > 0) {
             const itemInfo = structuredClone(products.find((product) => product._id === items))
-        console.log('iteminfo',itemInfo);
 
             if (itemInfo) {
               itemInfo.size = item;
@@ -55,10 +51,38 @@ const PlaceOrder = () => {
         }
       }
 
-      console.log("orderItems",orderItems);
+      let orderData = {
+        address: formData,
+        items: orderItems,
+        amount: getCartAmount() + delivery_fee
+      }
+
+      if (paymentMethod == 'cod') {
+        const response = await axios.post(`${backendUrl}/api/order/place-cod`, orderData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+
+        console.log("response", response);
+
+        if (response.data.success) {
+          setCartItems({})
+          toast.success(response.data.message)
+          navigate('/orders')
+        } else {
+          toast.error(response.data.message)
+        }
+
+      } else {
+
+      }
 
     } catch (error) {
-
+      console.log(error);
+      toast.error(error.message)
     }
   }
 

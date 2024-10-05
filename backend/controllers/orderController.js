@@ -28,14 +28,11 @@ const placeOrderCOD = async (req, res) => {
 }
 
 //Placing orders using Stripe Method
-const placeOrderStripe = async (req, res) => {
+const placeOrderPaypal = async (req, res) => {
 
 }
 
-//Placing orders using Razorpay Method
-const placeOrderRazorPay = async (req, res) => {
 
-}
 
 //All orders data for admin panel
 const allOrders = async (req, res) => {
@@ -78,8 +75,7 @@ const updateOrderStatus = async (req, res) => {
 
 module.exports = {
     placeOrderCOD,
-    placeOrderStripe,
-    placeOrderRazorPay,
+    placeOrderPaypal,
     allOrders,
     userOrders,
     updateOrderStatus

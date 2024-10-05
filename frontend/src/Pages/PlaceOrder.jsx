@@ -2,10 +2,10 @@ import { useContext, useState } from "react";
 import { assets } from "../assets/assets";
 import CartTotal from "../Components/CartTotal";
 import Title from "../Components/Title";
-import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../Context/ShopContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+
 
 const PlaceOrder = () => {
   const [paymentMethod, setPaymentMethod] = useState("");
@@ -75,8 +75,6 @@ const PlaceOrder = () => {
         } else {
           toast.error(response.data.message)
         }
-
-      } else {
 
       }
 

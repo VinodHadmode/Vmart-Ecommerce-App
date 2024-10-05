@@ -1,6 +1,6 @@
 const express = require('express')
 const { adminAuth } = require('../middlewares/adminAuth')
-const { allOrders, updateOrderStatus, placeOrderCOD, placeOrderStripe, placeOrderRazorPay, userOrders } = require('../controllers/orderController')
+const { allOrders, updateOrderStatus, placeOrderCOD, placeOrderStripe, placeOrderRazorPay, userOrders, placeOrderPaypal } = require('../controllers/orderController')
 const { userAuth } = require('../middlewares/userAuth')
 
 const orderRouter = express.Router()
@@ -11,8 +11,7 @@ orderRouter.post('/status', adminAuth, updateOrderStatus)
 
 //payment routes
 orderRouter.post('/place-cod', userAuth, placeOrderCOD)
-orderRouter.post('/place-stripe', userAuth, placeOrderStripe)
-orderRouter.post('/place-razorpay', userAuth, placeOrderRazorPay)
+orderRouter.post('/place-paypal', userAuth, placeOrderPaypal)
 
 //order routes
 orderRouter.post('/userorders', userAuth, userOrders)

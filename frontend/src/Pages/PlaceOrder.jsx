@@ -1,26 +1,30 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { assets } from "../assets/assets";
 import CartTotal from "../Components/CartTotal";
 import Title from "../Components/Title";
 import { ShopContext } from "../Context/ShopContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import DropIn from "braintree-web-drop-in-react";
 
+let initFormData = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  street: '',
+  city: '',
+  state: '',
+  zipcode: '',
+  country: '',
+  phone: ''
+}
 
 const PlaceOrder = () => {
   const [paymentMethod, setPaymentMethod] = useState("");
   const { navigate, backendUrl, token, cartItems, setCartItems, getCartAmount, delivery_fee, products } = useContext(ShopContext)
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    street: '',
-    city: '',
-    state: '',
-    zipcode: '',
-    country: '',
-    phone: ''
-  })
+  const [clientToken, setClientToken] = useState(null);
+  const dropInInstance = useRef(null);
+  const [formData, setFormData] = useState(initFormData)
 
   const onChangeHandler = (event) => {
     const name = event.target.name;
@@ -33,15 +37,13 @@ const PlaceOrder = () => {
     event.preventDefault()
 
     try {
+
       let orderItems = []
 
       for (const items in cartItems) {
-
         for (const item in cartItems[items]) {
-
           if (cartItems[items][item] > 0) {
             const itemInfo = structuredClone(products.find((product) => product._id === items))
-
             if (itemInfo) {
               itemInfo.size = item;
               itemInfo.quantity = cartItems[items][item]
@@ -83,6 +85,70 @@ const PlaceOrder = () => {
       toast.error(error.message)
     }
   }
+
+  const handleBraintreePayment = async () => {
+    try {
+
+      const { nonce } = await dropInInstance.current.requestPaymentMethod();
+
+      let orderItems = []
+
+      for (const items in cartItems) {
+        for (const item in cartItems[items]) {
+          if (cartItems[items][item] > 0) {
+            const itemInfo = structuredClone(products.find((product) => product._id === items))
+            if (itemInfo) {
+              itemInfo.size = item;
+              itemInfo.quantity = cartItems[items][item]
+              orderItems.push(itemInfo)
+            }
+          }
+        }
+      }
+
+      const orderData = {
+        address: formData,
+        items: orderItems,
+        amount: getCartAmount() + delivery_fee,
+        nonce,
+      };
+
+      const response = await axios.post(`${backendUrl}/api/order/place-braintree`, orderData,
+        {
+          headers:
+          {
+            Authorization: `Bearer ${token}`
+          },
+        });
+
+      if (response.data.success) {
+        setCartItems({});
+        toast.success(response.data.message);
+        navigate('/orders');
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      toast.error("Payment failed");
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    // Fetch Braintree client token
+    const fetchClientToken = async () => {
+      try {
+        const response = await axios.get(`${backendUrl}/api/order/braintree/token`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setClientToken(response.data.clientToken);
+      } catch (error) {
+        console.log(error);
+        toast.error("Failed to load payment gateway.");
+      }
+    };
+    fetchClientToken();
+  }, [backendUrl, token]);
 
   return (
     <div className="min-h-[80vh] border-t px-5 py-10 bg-gray-50">
@@ -196,37 +262,17 @@ const PlaceOrder = () => {
 
             {/* Payment Method Selection */}
             <div className="flex flex-col gap-4 mt-6">
-              <div
-                onClick={() => setPaymentMethod("stripe")}
-                className={`flex items-center gap-4 border rounded-md p-3 cursor-pointer ${paymentMethod === "stripe" ? "border-green-400" : ""
-                  }`}
-              >
-                <span
-                  className={`w-4 h-4 border rounded-full ${paymentMethod === "stripe" ? "bg-green-400" : ""
-                    }`}
-                ></span>
-                <img
-                  className="h-5"
-                  src={assets.stripe_logo}
-                  alt="Stripe Logo"
-                />
-              </div>
-
-              <div
-                onClick={() => setPaymentMethod("razorpay")}
-                className={`flex items-center gap-4 border rounded-md p-3 cursor-pointer ${paymentMethod === "razorpay" ? "border-green-400" : ""
-                  }`}
-              >
-                <span
-                  className={`w-4 h-4 border rounded-full ${paymentMethod === "razorpay" ? "bg-green-400" : ""
-                    }`}
-                ></span>
-                <img
-                  className="h-5"
-                  src={assets.razorpay_logo}
-                  alt="Razorpay Logo"
-                />
-              </div>
+              {/* <div>
+                {paymentMethod === "braintree" && clientToken && (
+                  <div>
+                    <DropIn
+                      options={{ authorization: clientToken }}
+                      onInstance={(instance) => (dropInInstance.current = instance)}
+                    />
+                    <button onClick={handleBraintreePayment}>Pay with Braintree</button>
+                  </div>
+                )}
+              </div> */}
 
               <div
                 onClick={() => setPaymentMethod("cod")}

@@ -2,7 +2,6 @@ const { OrderModel } = require("../models/orderModel")
 require('dotenv').config()
 
 
-
 //Placing orders using COD Method
 const placeOrderCOD = async (req, res) => {
     try {
@@ -29,6 +28,38 @@ const placeOrderCOD = async (req, res) => {
         res.status(400).json({ success: true, message: error.message })
     }
 }
+
+
+//Placing orders using PayPal Method
+const placeOrderPayPal = async (req, res) => {
+    try {
+        const { userId, items, amount, address, paymentID, payerID } = req.body;
+
+        // Store the order data
+        const orderData = {
+            userId,
+            items,
+            amount,
+            address,
+            paymentMethod: "PayPal",
+            payment: true,  // Payment is confirmed
+            paymentID, // PayPal Payment ID
+            payerID,  // PayPal Payer ID
+            date: Date.now(),
+        };
+
+        const newOrder = new OrderModel(orderData);
+        await newOrder.save();
+
+        await OrderModel.findByIdAndUpdate(userId, { cartData: {} });
+
+        res.status(200).json({ success: true, message: "Order Placed" });
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ success: false, message: error.message });
+    }
+};
+
 
 //All orders data for admin panel
 const allOrders = async (req, res) => {
@@ -69,8 +100,10 @@ const updateOrderStatus = async (req, res) => {
     }
 }
 
+
 module.exports = {
     placeOrderCOD,
+    placeOrderPayPal,
     allOrders,
     userOrders,
     updateOrderStatus

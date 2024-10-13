@@ -1,11 +1,10 @@
-import React from "react";
 import { assets } from "../assets/assets";
 
 const Navbar = ({ onLogout }) => {
   return (
     <div className="flex items-center justify-between px-4 sm:px-6 md:px-8 lg:px-12 py-4 bg-gray-900 text-white shadow-md">
-      <div>
-        <img src={assets.logo} alt="admin panel logo" className="w-32 h-auto bg-white" />
+      <div className="flex items-center">
+        <img src={assets.vmart_logo} alt="admin panel logo" className="w-36 max-h-16 object-contain border-2 border-gray-900 box-border ml-[-24px]" />
       </div>
       
       <button

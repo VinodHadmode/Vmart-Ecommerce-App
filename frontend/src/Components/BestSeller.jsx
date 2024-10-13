@@ -2,17 +2,20 @@ import React, { useContext, useEffect, useState } from 'react'
 import { ShopContext } from '../Context/ShopContext'
 import Title from './Title'
 import ProductItem from './ProductItem'
+import Spinner from './Spinner'
 
 const BestSeller = () => {
-    const { products } = useContext(ShopContext)
+    const { products, loading } = useContext(ShopContext)
     const [bestSeller, setBestSeller] = useState([])
 
     useEffect(() => {
-        const bestProducts = products.filter((item) => (item.bestseller))
+        const bestProducts = products.filter((item) => (item.bestSeller))
         setBestSeller(bestProducts.slice(0, 5))
     }, [products])
 
     // console.log("bestSeller", bestSeller);
+    // console.log("products", products);
+
 
     return (
         <div className="my-10">
@@ -22,12 +25,17 @@ const BestSeller = () => {
             </div>
 
             {/* Rendering bestSeller products */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 gap-y-8">
-                {bestSeller && bestSeller.map((item, index) => (
-                    <ProductItem key={index} id={item._id} name={item.name} image={item.image} price={item.price} />
-                ))}
-            </div>
 
+            {
+                loading ? (
+                    <Spinner />
+                ) :
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 gap-y-8">
+                        {bestSeller && bestSeller.map((item, index) => (
+                            <ProductItem key={index} id={item._id} name={item.name} image={item.image} price={item.price} />
+                        ))}
+                    </div>
+            }
         </div>
     )
 }

@@ -7,7 +7,7 @@ import CartTotal from "../Components/CartTotal";
 
 const Cart = () => {
   const { products, currency, cartItems, updateCartQuantity } = useContext(ShopContext);
-  const [cartData, setCartData] = useState([]);  // Initialize as an empty array
+  const [cartData, setCartData] = useState([]);  
   const navigate = useNavigate();
 
   const handleQuantityChange = (e, itemId, size) => {
@@ -34,7 +34,7 @@ const Cart = () => {
       }
       return tempData;
     }
-    return [];  // Always return an empty array if no products are found
+    return [];  
   };
 
   useEffect(() => {

@@ -12,6 +12,8 @@ const ShopContextProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState({})
     const [products, setProducts] = useState([])
     const [token, setToken] = useState('')
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
     const navigate = useNavigate()
 
     const currency = "$"
@@ -56,7 +58,7 @@ const ShopContextProvider = ({ children }) => {
             } catch (error) {
                 console.log(error);
                 toast.error(error.message)
-            }
+            } 
         }
     }
 
@@ -88,6 +90,7 @@ const ShopContextProvider = ({ children }) => {
 
         if (token) {
             try {
+                setLoading(true); 
                 const response = await axios.post(`${backendUrl}/api/cart/update`, { itemId, size, quantity },
                     {
                         headers: {
@@ -102,6 +105,8 @@ const ShopContextProvider = ({ children }) => {
             } catch (error) {
                 console.log(error);
                 toast.error(error.message)
+            } finally {
+                setLoading(false); 
             }
         }
     };
@@ -127,6 +132,7 @@ const ShopContextProvider = ({ children }) => {
 
     const getUserCart = async (token) => {
         try {
+            setLoading(true); 
             const response = await axios.post(`${backendUrl}/api/cart/get`, {},
                 {
                     headers: {
@@ -142,20 +148,14 @@ const ShopContextProvider = ({ children }) => {
         } catch (error) {
             console.log(error);
             toast.error(error.message)
+        } finally {
+            setLoading(false)
         }
-    }
-
-    const contextValue = {
-        products, currency, delivery_fee,
-        search, setSearch, showSearch, setShowSearch,
-        cartItems,setCartItems, addToCart, getCartCount, updateCartQuantity, getCartAmount,
-        backendUrl,
-        navigate,
-        token, setToken
     }
 
     const getProducts = async () => {
         try {
+            setLoading(true)
             const response = await axios.get(`${backendUrl}/api/product/list`)
 
             if (response.data.success) {
@@ -167,8 +167,19 @@ const ShopContextProvider = ({ children }) => {
         } catch (error) {
             console.log(error);
             toast.error(error.message)
-
+        } finally {
+            setLoading(false)
         }
+    }
+
+    const contextValue = {
+        products, currency, delivery_fee,
+        search, setSearch, showSearch, setShowSearch,
+        cartItems, setCartItems, addToCart, getCartCount, updateCartQuantity, getCartAmount,
+        backendUrl,
+        navigate,
+        token, setToken,
+        loading
     }
 
     useEffect(() => {

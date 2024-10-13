@@ -24,33 +24,46 @@ const Navbar = () => {
 
     const handleUserIconClick = () => {
         if (token) {
-            setIsDropdownOpen(!isDropdownOpen); // Open dropdown if logged in
+            setIsDropdownOpen(!isDropdownOpen); 
         } else {
-            navigate('/login'); // Navigate to login if not logged in
+            navigate('/login'); 
         }
     };
 
+  
     return (
         <div className="flex items-center justify-between px-4 sm:px-6 md:px-8 lg:px-12 py-4 bg-gray-900 text-white shadow-md relative">
 
             <div>
                 <Link to={"/"}>
-                    <img src={assets.logo} alt="forever" className="w-32 h-auto bg-white" />
+                    <img src={assets.vmart_logo} alt="forever" className="w-36 max-h-16 object-contain border-2 border-gray-900 box-border ml-[-24px]" />
                 </Link>
             </div>
 
             {/* Navigation Links */}
             <div className="hidden sm:flex space-x-6">
-                <NavLink to={"/"} className="hover:text-yellow-400 transition-colors">
+            <NavLink 
+                    to="/" 
+                    className={({ isActive }) => isActive ? "text-yellow-400 font-bold" : "hover:text-yellow-400 transition-colors"}
+                >
                     HOME
                 </NavLink>
-                <NavLink to={"/collection"} className="hover:text-yellow-400 transition-colors">
+                <NavLink 
+                    to="/collection" 
+                    className={({ isActive }) => isActive ? "text-yellow-400 font-bold" : "hover:text-yellow-400 transition-colors"}
+                >
                     COLLECTION
                 </NavLink>
-                <NavLink to={"/about"} className="hover:text-yellow-400 transition-colors">
+                <NavLink 
+                    to="/about" 
+                    className={({ isActive }) => isActive ? "text-yellow-400 font-bold" : "hover:text-yellow-400 transition-colors"}
+                >
                     ABOUT
                 </NavLink>
-                <NavLink to={"/contact"} className="hover:text-yellow-400 transition-colors">
+                <NavLink 
+                    to="/contact" 
+                    className={({ isActive }) => isActive ? "text-yellow-400 font-bold" : "hover:text-yellow-400 transition-colors"}
+                >
                     CONTACT
                 </NavLink>
             </div>

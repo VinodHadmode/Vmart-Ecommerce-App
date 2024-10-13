@@ -3,6 +3,7 @@ import { IoCaretForwardSharp } from "react-icons/io5";
 import Title from "../Components/Title"
 import ProductItem from "../Components/ProductItem";
 import { ShopContext } from "../Context/ShopContext";
+import Spinner from "../Components/Spinner";
 
 const Collection = () => {
   const [showFilter, setShowFilter] = useState(false)
@@ -11,7 +12,7 @@ const Collection = () => {
   const [subCategory, setSubCategory] = useState([])
   const [sortOption, setSortOption] = useState("relevant")
 
-  const { products, search, showSearch } = useContext(ShopContext)
+  const { products, search, showSearch, loading } = useContext(ShopContext)
 
 
   const handleCategoryChange = (e) => {
@@ -42,8 +43,8 @@ const Collection = () => {
 
     //Apply search query
     if (search && showSearch) {
-      
-      productsCopy=productsCopy.filter((item)=>{
+
+      productsCopy = productsCopy.filter((item) => {
         return item.name.toLowerCase().includes(search.toLowerCase())
       })
     }
@@ -69,7 +70,7 @@ const Collection = () => {
 
   useEffect(() => {
     applyFilterAndSort();
-  }, [products,category, subCategory, sortOption,search,showSearch]);
+  }, [products, category, subCategory, sortOption, search, showSearch]);
 
   return (
     <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
@@ -135,11 +136,16 @@ const Collection = () => {
         </div>
 
         {/* Rendering all products */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 gap-y-8">
-          {filteredProducts && filteredProducts.map((item, index) => (
-            <ProductItem key={index} id={item._id} name={item.name} image={item.image} price={item.price} />
-          ))}
-        </div>
+        {
+          loading ? (
+            <Spinner />
+          ) :
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 gap-y-8">
+              {filteredProducts && filteredProducts.map((item, index) => (
+                <ProductItem key={index} id={item._id} name={item.name} image={item.image} price={item.price} />
+              ))}
+            </div>
+        }
       </div>
     </div>
   )

@@ -4,10 +4,11 @@ import { ShopContext } from "../Context/ShopContext";
 import Title from "../Components/Title";
 import CartItem from "../Components/CartItem";
 import CartTotal from "../Components/CartTotal";
+import { BsCartX } from "react-icons/bs";
 
 const Cart = () => {
   const { products, currency, cartItems, updateCartQuantity } = useContext(ShopContext);
-  const [cartData, setCartData] = useState([]);  
+  const [cartData, setCartData] = useState([]);
   const navigate = useNavigate();
 
   const handleQuantityChange = (e, itemId, size) => {
@@ -34,7 +35,7 @@ const Cart = () => {
       }
       return tempData;
     }
-    return [];  
+    return [];
   };
 
   useEffect(() => {
@@ -50,12 +51,22 @@ const Cart = () => {
       <div>
         {
           cartData && cartData.length === 0 ? (
-           
-            <div className="text-center my-10 text-lg font-semibold">
-              Your cart is empty.
+
+            <div className="flex flex-col items-center justify-center my-20">
+              <BsCartX className="text-7xl text-gray-500 mb-4" /> {/* Empty cart icon */}
+              <p className="text-xl font-semibold text-gray-600 mb-4">
+                Your cart is empty.
+              </p>
+              <button
+                onClick={() => navigate('/collection')}
+                className="bg-black text-white px-8 py-3 text-sm"
+              >
+                Continue Shopping
+              </button>
             </div>
+
           ) : (
-          
+
             cartData.map((item, index) => {
               const productData = products.find((product) => product._id === item._id);
 
@@ -74,14 +85,14 @@ const Cart = () => {
         }
       </div>
 
-      <div className="flex justify-end my-20">
+      <div className="flex justify-end my-20 mt-30">
         <div className="w-full sm:w-[450px]">
           <CartTotal />
           <div className="w-full text-end">
-            <button 
+            <button
               onClick={() => navigate('/place-order')}
               className={`bg-black text-white text-sm my-8 px-5 py-3 ${cartData.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
-              disabled={cartData.length === 0}  
+              disabled={cartData.length === 0}
             >
               PROCEED TO CHECKOUT
             </button>

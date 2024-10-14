@@ -96,13 +96,6 @@ const Navbar = () => {
                     {isDropdownOpen && token && (
                         <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 text-gray-800 z-50">
                             <NavLink
-                                to={"/profile"}
-                                className="block px-4 py-2 hover:bg-gray-200 rounded-lg"
-                                onClick={() => setIsDropdownOpen(false)}
-                            >
-                                My Profile
-                            </NavLink>
-                            <NavLink
                                 to={"/orders"}
                                 className="block px-4 py-2 hover:bg-gray-200 rounded-lg"
                                 onClick={() => setIsDropdownOpen(false)}

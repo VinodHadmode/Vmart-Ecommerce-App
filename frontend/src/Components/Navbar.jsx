@@ -5,12 +5,13 @@ import { FaRegUser } from "react-icons/fa";
 import { BsCart2 } from "react-icons/bs";
 import { FiMenu } from "react-icons/fi";
 import { IoIosArrowBack } from "react-icons/io";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { ShopContext } from "../Context/ShopContext";
 
 const Navbar = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [visibleMenu, setVisibleMenu] = useState(false);
+    const dropdownRef = useRef(null);
 
     const { setShowSearch, getCartCount, navigate, token, setToken, setCartItems } = useContext(ShopContext)
 
@@ -24,13 +25,27 @@ const Navbar = () => {
 
     const handleUserIconClick = () => {
         if (token) {
-            setIsDropdownOpen(!isDropdownOpen); 
+            setIsDropdownOpen(!isDropdownOpen);
         } else {
-            navigate('/login'); 
+            navigate('/login');
         }
     };
 
-  
+    // Close dropdown if clicking outside of it
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsDropdownOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+
+    }, []);
+
     return (
         <div className="flex items-center justify-between px-4 sm:px-6 md:px-8 lg:px-12 py-4 bg-gray-900 text-white shadow-md relative">
 
@@ -42,26 +57,26 @@ const Navbar = () => {
 
             {/* Navigation Links */}
             <div className="hidden sm:flex space-x-6">
-            <NavLink 
-                    to="/" 
+                <NavLink
+                    to="/"
                     className={({ isActive }) => isActive ? "text-yellow-400 font-bold" : "hover:text-yellow-400 transition-colors"}
                 >
                     HOME
                 </NavLink>
-                <NavLink 
-                    to="/collection" 
+                <NavLink
+                    to="/collection"
                     className={({ isActive }) => isActive ? "text-yellow-400 font-bold" : "hover:text-yellow-400 transition-colors"}
                 >
                     COLLECTION
                 </NavLink>
-                <NavLink 
-                    to="/about" 
+                <NavLink
+                    to="/about"
                     className={({ isActive }) => isActive ? "text-yellow-400 font-bold" : "hover:text-yellow-400 transition-colors"}
                 >
                     ABOUT
                 </NavLink>
-                <NavLink 
-                    to="/contact" 
+                <NavLink
+                    to="/contact"
                     className={({ isActive }) => isActive ? "text-yellow-400 font-bold" : "hover:text-yellow-400 transition-colors"}
                 >
                     CONTACT
@@ -72,7 +87,7 @@ const Navbar = () => {
                 <GoSearch onClick={() => setShowSearch(true)} className="w-6 h-6 cursor-pointer hover:text-yellow-400 transition-colors" />
 
                 {/* User Icon with Dropdown */}
-                <div className="relative">
+                <div className="relative" ref={dropdownRef}>
                     <FaRegUser
                         className="w-6 h-6 cursor-pointer hover:text-yellow-400 transition-colors"
                         onClick={handleUserIconClick}

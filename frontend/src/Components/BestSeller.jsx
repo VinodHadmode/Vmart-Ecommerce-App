@@ -5,7 +5,7 @@ import ProductItem from './ProductItem'
 import Spinner from './Spinner'
 
 const BestSeller = () => {
-    const { products, loading } = useContext(ShopContext)
+    const { products } = useContext(ShopContext)
     const [bestSeller, setBestSeller] = useState([])
 
     useEffect(() => {
@@ -25,17 +25,12 @@ const BestSeller = () => {
             </div>
 
             {/* Rendering bestSeller products */}
-
-            {
-                loading ? (
-                    <Spinner />
-                ) :
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 gap-y-8">
-                        {bestSeller && bestSeller.map((item, index) => (
-                            <ProductItem key={index} id={item._id} name={item.name} image={item.image} price={item.price} />
-                        ))}
-                    </div>
-            }
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 gap-y-8">
+                {bestSeller && bestSeller.map((item, index) => (
+                    <ProductItem key={index} id={item._id} name={item.name} image={item.image} price={item.price} />
+                ))}
+            </div>
+            
         </div>
     )
 }

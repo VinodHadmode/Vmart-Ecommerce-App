@@ -12,7 +12,7 @@ const Collection = () => {
   const [subCategory, setSubCategory] = useState([])
   const [sortOption, setSortOption] = useState("relevant")
 
-  const { products, search, showSearch, loading } = useContext(ShopContext)
+  const { products, search, showSearch } = useContext(ShopContext)
 
 
   const handleCategoryChange = (e) => {
@@ -136,16 +136,12 @@ const Collection = () => {
         </div>
 
         {/* Rendering all products */}
-        {
-          loading ? (
-            <Spinner />
-          ) :
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 gap-y-8">
-              {filteredProducts && filteredProducts.map((item, index) => (
-                <ProductItem key={index} id={item._id} name={item.name} image={item.image} price={item.price} />
-              ))}
-            </div>
-        }
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 gap-y-8">
+          {filteredProducts && filteredProducts.map((item, index) => (
+            <ProductItem key={index} id={item._id} name={item.name} image={item.image} price={item.price} />
+          ))}
+        </div>
+
       </div>
     </div>
   )

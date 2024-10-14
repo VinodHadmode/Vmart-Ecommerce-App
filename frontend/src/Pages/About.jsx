@@ -10,7 +10,7 @@ const About = () => {
       </div>
 
       <div className="my-10 flex flex-col md:flex-row gap-16">
-        <img className="w-full h-auto md:max-w-[450px]" src={assets.about_img} alt="About Us Image" />
+        <img className="w-full h-auto md:max-w-[450px]" src={assets.about_img2} alt="About Us Image" />
         <div className="flex flex-col justify-center gap-6 md:w-2/4 text-gray-600">
           <p>
             Forever was born out of a passion for innovation and a desire to revolutionize the way people shop online. Our journey began with a simple idea: to provide a platform where customers can explore and purchase a wide range of products from the comfort of their home.

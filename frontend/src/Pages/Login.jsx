@@ -18,8 +18,6 @@ const Login = () => {
       if (currentState == 'Sign Up') {
         const response = await axios.post(`${backendUrl}/api/user/register`, { name, email, password })
 
-        console.log(response.data);
-
         if (response.data.success) {
           toast.success(response.data.message)
         } else {
@@ -28,7 +26,6 @@ const Login = () => {
       }
       else {
         const response = await axios.post(`${backendUrl}/api/user/login`, { email, password })
-        console.log(response.data);
 
         if (response.data.success) {
           setToken(response.data.token)
@@ -53,7 +50,7 @@ const Login = () => {
   }, [token])
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="mt-10 flex items-center justify-center">
       <form onSubmit={handleFormSubmit} className="bg-white p-8 rounded-lg shadow-md w-[90%] sm:max-w-md flex flex-col items-center gap-4">
         {/* Title Section */}
         <div className="inline-flex items-center gap-2 mt-5 mb-8">

@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { toast } from "react-toastify";
+
 
 const NewsLetterBox = () => {
+    const [email, setEmail] = useState('')
 
     const onSubmitHandler = (event) => {
         event.preventDefault();
+        toast.success('Subscribed!!')
+        setEmail('')
     }
 
     return (
@@ -12,14 +17,16 @@ const NewsLetterBox = () => {
             <p className="text-gray-500 mt-2">Stay updated with our latest news and offers. Sign up for our newsletter.</p>
 
             <form onSubmit={onSubmitHandler} className="w-full sm:w-2/3 lg:w-1/2 flex flex-col sm:flex-row items-center gap-3 mx-auto my-6 border rounded-lg p-2 shadow-md">
-                <input 
-                    className="w-full sm:flex-1 p-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-400" 
-                    type="email" 
-                    placeholder="Enter your email" 
-                    required 
+                <input
+                    className="w-full sm:flex-1 p-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-400"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email"
+                    required
                 />
-                <button 
-                    type="submit" 
+                <button
+                    type="submit"
                     className="bg-black text-white px-8 py-3 mt-3 sm:mt-0 rounded-lg hover:bg-gray-800 transition-all duration-300"
                 >
                     SUBSCRIBE

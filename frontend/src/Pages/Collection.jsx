@@ -137,7 +137,7 @@ const Collection = () => {
 
         {/* Rendering all products */}
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 gap-y-8">
-          {filteredProducts && filteredProducts.map((item, index) => (
+          {filteredProducts && filteredProducts.reverse().map((item, index) => (
             <ProductItem key={index} id={item._id} name={item.name} image={item.image} price={item.price} />
           ))}
         </div>

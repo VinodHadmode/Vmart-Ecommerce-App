@@ -3,49 +3,52 @@ import { ShopContext } from "../Context/ShopContext";
 import Title from "../Components/Title";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Orders = () => {
-  const [orderData, setOrderData] = useState([])
+  const [orderData, setOrderData] = useState([]);
   const { backendUrl, token, currency } = useContext(ShopContext);
+  const navigate = useNavigate();
 
   const loadOrderData = async () => {
     try {
       if (!token) {
-        return null
+        return null;
       }
 
-      const response = await axios.post(`${backendUrl}/api/order/userorders`, {},
+      const response = await axios.post(
+        `${backendUrl}/api/order/userorders`,
+        {},
         {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         }
-      )
+      );
 
       if (response.data.success) {
-
-        let allOrderItems = []
+        let allOrderItems = [];
 
         response.data.orders.map((order) => {
           order.items.map((item) => {
-            item['status'] = order.status
-            item['payment'] = order.payment
-            item['paymentMethod'] = order.paymentMethod
-            item['date'] = order.date
-            allOrderItems.push(item)
-          })
-        })
-        setOrderData(allOrderItems.reverse())
+            item["status"] = order.status;
+            item["payment"] = order.payment;
+            item["paymentMethod"] = order.paymentMethod;
+            item["date"] = order.date;
+            allOrderItems.push(item);
+          });
+        });
+        setOrderData(allOrderItems.reverse());
       }
     } catch (error) {
       console.error("Error loading order data:", error);
-      toast.error(error.message)
+      toast.error(error.message);
     }
-  }
-  
+  };
+
   useEffect(() => {
-    loadOrderData()
-  }, [token])
+    loadOrderData();
+  }, [token]);
 
   return (
     <div className="bg-gray-50 min-h-screen py-10">
@@ -53,12 +56,24 @@ const Orders = () => {
         <div className="border-t pt-10">
           {/* Title Section */}
           <div className="text-center text-3xl font-semibold text-gray-800 mb-6">
-            <Title text1={'MY'} text2={'ORDERS'} />
+            <Title text1={"MY"} text2={"ORDERS"} />
           </div>
 
           {/* Orders List */}
           <div className="space-y-8">
-            {orderData &&
+            {orderData.length === 0 ? (
+              <div className="text-center text-gray-500 mt-10">
+                
+                <p className="text-lg mb-2">You have no orders yet.</p>
+                <p className="text-lg mb-6">Start shopping and place your first order!</p>
+                <button
+                  onClick={() => navigate('/collection')}
+                  className="bg-black text-white px-8 py-3 mt-3 sm:mt-0 rounded-lg hover:bg-gray-800 transition-all duration-300"
+                >
+                  Continue Shopping
+                </button>
+              </div>
+            ) : (
               orderData.map((item, index) => {
                 return (
                   <div
@@ -98,13 +113,17 @@ const Orders = () => {
                         <span className="h-2 w-2 rounded-full bg-green-500"></span>
                         <p>{item.status}</p>
                       </div>
-                      <button onClick={loadOrderData} className="ml-auto border border-gray-300 bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-2 rounded-md text-sm font-semibold transition-colors">
+                      <button
+                        onClick={loadOrderData}
+                        className="ml-auto border border-gray-300 bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-2 rounded-md text-sm font-semibold transition-colors"
+                      >
                         Track Order
                       </button>
                     </div>
                   </div>
                 );
-              })}
+              })
+            )}
           </div>
         </div>
       </div>

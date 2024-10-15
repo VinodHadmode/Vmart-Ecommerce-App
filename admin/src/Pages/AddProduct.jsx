@@ -165,7 +165,7 @@ const AddProduct = ({ token }) => {
         <label className="cursor-pointer" htmlFor="bestseller">Add to bestseller</label>
       </div>
 
-      <button type="submit" className="w-28 py-3 mt-4 bg-black text-white">ADD</button>
+      <button type="submit" className="bg-black text-white px-8 py-3 mt-3 sm:mt-0 rounded-lg hover:bg-gray-800 transition-all duration-300">ADD PRODUCT</button>
     </form>
   )
 }

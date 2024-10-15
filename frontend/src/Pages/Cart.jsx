@@ -59,7 +59,7 @@ const Cart = () => {
               </p>
               <button
                 onClick={() => navigate('/collection')}
-                className="bg-black text-white px-8 py-3 text-sm"
+                className="bg-black text-white px-8 py-3 mt-3 sm:mt-0 rounded-lg hover:bg-gray-800 transition-all duration-300"
               >
                 Continue Shopping
               </button>
@@ -91,7 +91,7 @@ const Cart = () => {
           <div className="w-full text-end">
             <button
               onClick={() => navigate('/place-order')}
-              className={`bg-black text-white text-sm my-8 px-5 py-3 ${cartData.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={`bg-black text-white text-sm my-8 px-5 py-3 rounded-lg hover:bg-gray-800 transition-all duration-300 ${cartData.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
               disabled={cartData.length === 0}
             >
               PROCEED TO CHECKOUT

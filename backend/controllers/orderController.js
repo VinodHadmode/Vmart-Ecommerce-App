@@ -1,4 +1,5 @@
 const { OrderModel } = require("../models/orderModel")
+const { UserModel } = require("../models/userModel")
 require('dotenv').config()
 
 
@@ -20,7 +21,9 @@ const placeOrderCOD = async (req, res) => {
         const newOrder = new OrderModel(orderData)
         await newOrder.save()
 
-        await OrderModel.findByIdAndUpdate(userId, { cartData: {} })
+        // await OrderModel.findByIdAndUpdate(userId, { cartData: {} })
+        await UserModel.findByIdAndUpdate(userId, { $set: { cartData: {} } });
+
         res.status(200).json({ success: true, message: "Order Placed" })
 
     } catch (error) {
@@ -52,6 +55,7 @@ const placeOrderPayPal = async (req, res) => {
         await newOrder.save();
 
         await OrderModel.findByIdAndUpdate(userId, { cartData: {} });
+        await UserModel.findByIdAndUpdate(userId, { $set: { cartData: {} } });
 
         res.status(200).json({ success: true, message: "Order Placed" });
     } catch (error) {

@@ -65,12 +65,13 @@ const Product = () => {
             <div className="flex gap-2">
               {
                 productData && productData.sizes.map((item, index) => {
-                  return <button key={index} onClick={() => setSize(item)} className={`border py-2 px-4 bg-gray-200 ${size === item ? "border-yellow-800" : ""}`} >{item}</button>
+                  return <button key={index} onClick={() => setSize(item)} className={`border py-2 px-4 bg-gray-200 ${size === item ? "bg-pink-300" : ""}`} >{item}</button>
                 })
               }
             </div>
           </div>
-          <button onClick={() => addToCart(productData._id, size)} className="bg-black text-white px-8 py-3 text-sm">ADD TO CART</button>
+
+          <button onClick={() => addToCart(productData._id, size)} className="bg-black text-white px-8 py-3 mt-3 sm:mt-0 rounded-lg hover:bg-gray-800 transition-all duration-300">ADD TO CART</button>
           <hr className="mt-8 sm:w-4/5" />
           <div className="text-sm text-gray-500 mt-5 flex flex-col gap-1">
             <p>100% Original product.</p>
@@ -80,7 +81,7 @@ const Product = () => {
         </div>
       </div>
 
-      {/* ..............Description & Review Section */}
+      {/* ..............Description & Review Section.............. */}
       <div className="mt-20">
         <div className="flex">
           <p className="border px-5 py-3 text-sm">Description</p>

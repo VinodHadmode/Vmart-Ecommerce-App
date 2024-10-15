@@ -301,7 +301,7 @@ const PlaceOrder = () => {
             {paymentMethod === "cod" && (
               <button
                 type="submit"
-                className="w-full bg-green-500 text-white py-3 mt-10 rounded-md"
+                className="w-full bg-black text-white py-3 mt-10 rounded-lg hover:bg-gray-800 transition-all duration-300"
               >
                 Place Order
               </button>

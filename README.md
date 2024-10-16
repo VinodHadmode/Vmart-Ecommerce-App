@@ -7,9 +7,9 @@
 
 1. [Features](#features)
 2. [Technologies Used](#technologies-used)
-3. [Installation](#installation)
-4. [Usage](#usage)
-5. [Deployment](#deployment)
+3. [Usage](#usage)
+4. [Deployment](#deployment)
+5. [Installation](#installation)
 6. [API Endpoints](#api-endpoints)
 7. [Admin Panel](#admin-panel)
 8. [Contributors](#contributors)
@@ -34,6 +34,19 @@
 - **Authentication:** JWT (JSON Web Token)
 - **Payments:** PayPal Integration, Cash on Delivery (COD)
 - **Deployment:** Vercel (Frontend,backend & Admin)
+
+## Usage
+
+- **Browse Products:** Navigate through the collection of products, view details, and search/filter products.
+- **Shopping Cart:** Add products to the cart, adjust quantities, and proceed to checkout.
+- **Checkout:** Choose between Cash on Delivery (COD) and PayPal for payment methods. For PayPal payments, you can use the sandbox environment. When testing with sandbox, use demo credentials (email and password) provided for testing purposes. For card payment under PayPal, make sure to use credentials linked to U.S.-based accounts, as PayPal sandbox might not work for Indian cards.
+- **Admin Panel:** Admin users can log in add/delete the products and manage orders, including updating order statuses.
+
+## Deployment
+
+- **Frontend:** [Vmart-Frontend](https://vmart-frontend-six.vercel.app/)
+- **Backend:** [Vmart-Backend](https://vmart-backend-chi.vercel.app/)
+- **Admin Panel:** [Vmart-Admin](https://vmart-admin.vercel.app/)
 
 ## Installation
 
@@ -82,22 +95,6 @@
      ```
 
 6. Access the application at `http://localhost:3000`.
-
-## Usage
-
-- **Browse Products:** Navigate through the collection of products, view details, and search/filter products.
-
-- **Shopping Cart:** Add products to the cart, adjust quantities, and proceed to checkout.
-
-- **Checkout:** Choose between Cash on Delivery (COD) and PayPal for payment methods. For PayPal payments, you can use the sandbox environment. When testing with sandbox, use demo credentials (email and password) provided for testing purposes. For card payment under PayPal, make sure to use credentials linked to U.S.-based accounts, as PayPal sandbox might not work for Indian cards.
-
-- **Admin Panel:** Admin users can log in add/delete the products and manage orders, including updating order statuses.
-
-## Deployment
-
-- **Frontend:** [Vmart-Frontend](https://vmart-frontend-six.vercel.app/)
-- **Backend:** [Vmart-Backend](https://vmart-backend-chi.vercel.app/)
-- **Admin Panel:** [Vmart-Admin](https://vmart-admin.vercel.app/)
 
 ## API Endpoints
 

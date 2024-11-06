@@ -25,14 +25,14 @@ const Footer = () => {
                     <p className="text-xl font-medium mb-5">GET IN TOUCH</p>
                     <ul className="flex flex-col gap-1 text-gray-400">
                         <li className="hover:text-yellow-400 cursor-pointer">+1-212-456-7890</li>
-                        <li className="hover:text-yellow-400 cursor-pointer">contact@forever.gmail.com</li>
+                        <li className="hover:text-yellow-400 cursor-pointer">contact@vmart.gmail.com</li>
                     </ul>
                 </div>
             </div>
 
             <div>
                 <hr className="border-gray-700" />
-                <p className="py-5 text-center text-gray-500 text-sm">© 2025 Forever.com - All Rights Reserved.</p>
+                <p className="py-5 text-center text-gray-500 text-sm">© 2025 Vmart.com - All Rights Reserved.</p>
             </div>
         </div>
     );
